@@ -1,9 +1,9 @@
-import logo from "./logo.svg";
 import "./App.css";
 
 import Loading from "./Components/LoadingComponent/Loading";
 import { useState, useEffect } from "react";
-
+import NavBar from "./Components/NavbarComponent/NavBar";
+import UpperBody from "./Components/UpperBody/UpperBody";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -17,7 +17,8 @@ function App() {
 
   return (
     <div className="App">
-      <Loading></Loading>
+      <NavBar></NavBar>
+      <UpperBody></UpperBody>
     </div>
   );
 }
