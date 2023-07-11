@@ -1,0 +1,43 @@
+.mainDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #6b7aff 39.06%,
+    rgba(147, 62, 255, 0.5) 100%
+  );
+  padding: 20px;
+}
+
+.mainDiv h1 {
+  color: #fff;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 60px;
+}
+
+.mainDiv p {
+  text-align: center;
+  color: #e6e2f8;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+  opacity: 0;
+  animation: fade-in 2s forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
