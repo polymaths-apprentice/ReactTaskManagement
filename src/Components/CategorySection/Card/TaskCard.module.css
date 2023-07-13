@@ -38,10 +38,9 @@
 .middle {
   display: flex;
   align-items: start;
-  justify-content: start;
   flex-direction: column;
-  height: 50%;
-  margin-left: 5px;
+  width: inherit;
+  padding-left: 10px;
 }
 .taskDescription {
   margin-left: 20px;
@@ -56,6 +55,11 @@
   height: 25%;
   margin: 5px;
   padding: 5px;
+  padding-left: 10px;
+}
+
+.bottom p {
+  font-size: larger;
 }
 
 button:hover {

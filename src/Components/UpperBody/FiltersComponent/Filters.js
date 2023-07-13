@@ -7,7 +7,6 @@ export default function Filters() {
   const [selectedOption, setSelectedOption] = useState(null);
 
   useEffect(() => {
-    // Fetch options from API and update the options state
     fetchOptions()
       .then((data) => {
         setOptions(data);

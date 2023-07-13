@@ -1,24 +1,37 @@
 import React, { useState } from "react";
 import styles from "./TaskCard.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import arrowIcon from "../../../Assets/Arrow icon.svg";
 import starFilled from "../../../Assets/Star logo colored.svg";
 import starNotFilled from "../../../Assets/Star logo un-colored.svg";
+import Task from "../../../Models/TaskModel";
+import Category from "../../../Models/CategoryModel";
 
-export default function TaskCard(props) {
+export default function TaskCard({ task, category }) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
 
   function handleFavorite() {
     setIsFavorite(!isFavorite);
   }
 
   function handleEdit() {
-    // Replace 'thisTaskCurrentId' with the actual task ID you want to pass
-    const taskId = "thisTaskCurrentId";
-    navigate(`/edit/${taskId}`); // Navigate to the edit route with the task ID
+    const taskId = taskObj.id;
+    navigate(`/edit/${taskId}`);
   }
+
+  const taskDate = new Date(task.dueDate).toDateString();
+
+  const taskObj = new Task(
+    task.id,
+    task.title,
+    task.description,
+    taskDate,
+    task.categoryId,
+    task.status
+  );
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -31,23 +44,17 @@ export default function TaskCard(props) {
         </button>
 
         <button className={styles.logoImage}>
-          <img
-            src={arrowIcon}
-            onClick={handleEdit} // Call the handleEdit function when the button is clicked
-            alt="Logo"
-          />
+          <img src={arrowIcon} onClick={handleEdit} alt="Logo" />
         </button>
       </div>
       <div className={styles.middle}>
-        <h3>Create react app</h3>
-        <p className={styles.taskDescription}>
-          Lorem ipsum dolor sit amet consectetur adipisicing eli
-        </p>
+        <h3>{taskObj.title}</h3>
+        <p className={styles.taskDescription}>{taskObj.description}</p>
       </div>
 
       <div className={styles.bottom}>
-        <p>due date</p>
-        <p>category X</p>
+        <p>{taskObj.dueDate}</p>
+        <p>{category.name}</p>
       </div>
     </div>
   );

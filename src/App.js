@@ -1,13 +1,11 @@
 import "./App.css";
 
-import Loading from "./Components/LoadingComponent/Loading";
-
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import HomeComponent from "./Components/Home/HomeComponent";
 import CreateTask from "./Components/Form/Create Task/CreateTask";
 import EditTask from "./Components/Form/Edit tasks/EditTask";
-
+import Loading from "./Components/LoadingComponent/Loading";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,6 +16,10 @@ function App() {
 
     return () => clearTimeout(loadingTimeout);
   }, []);
+
+  if (isLoading) {
+    return <Loading />; // Render the loading component
+  }
 
   return (
     <div className="App">
