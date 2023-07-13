@@ -1,0 +1,13 @@
+.main {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row !important;
+  overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+  .main {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+}

@@ -14,13 +14,14 @@ export default function NavBar(args) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className={`mr-auto ${styles.navLinks}`}>
-              <Nav.Link href="#home">Your Tasks</Nav.Link>
-              <Nav.Link href="#categories">Categories</Nav.Link>
+              <Nav.Link href="/">Your Tasks</Nav.Link>
             </Nav>
             <div className={styles.right}>
-              <Button variant="outline-light" className={styles.addButton}>
-                + Add
-              </Button>
+              <Nav.Link href="/create">
+                <Button variant="outline-light" className={styles.addButton}>
+                  + Add
+                </Button>
+              </Nav.Link>
             </div>
           </Navbar.Collapse>
         </Container>

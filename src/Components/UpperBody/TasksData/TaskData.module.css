@@ -1,24 +1,14 @@
 .taskBox {
   display: inline-flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   margin-left: 10px;
   margin-top: 10px;
   margin-right: 30px;
-  width: 100px;
-}
-
-.taskBox::before {
-  position: absolute;
-  left: -8px;
-  top: 0;
-  height: 100%;
-  border-left: 2px solid;
-  border-color: inherit;
 }
 
 .taskDescription {
+  margin-left: 5px;
   display: flex;
   font-size: 10px;
   justify-content: center;
@@ -28,14 +18,10 @@
 
 .taskNumber {
   font-size: 20px;
-  text-align: center;
 }
 
 @media (max-width: 767px) {
   .taskBox {
     flex: 40%;
   }
-}
-
-@media (min-width: 576px) {
 }

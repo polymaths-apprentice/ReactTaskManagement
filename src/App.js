@@ -1,9 +1,13 @@
 import "./App.css";
 
 import Loading from "./Components/LoadingComponent/Loading";
+
 import { useState, useEffect } from "react";
-import NavBar from "./Components/NavbarComponent/NavBar";
-import UpperBody from "./Components/UpperBody/UpperBody";
+import { Route, Routes } from "react-router-dom";
+import HomeComponent from "./Components/Home/HomeComponent";
+import CreateTask from "./Components/Form/Create Task/CreateTask";
+import EditTask from "./Components/Form/Edit tasks/EditTask";
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -17,8 +21,13 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar></NavBar>
-      <UpperBody></UpperBody>
+      <Routes>
+        <Route path="/" element={<HomeComponent />} />
+        <Route path="/home" element={<HomeComponent />} />
+        <Route path="/create" element={<CreateTask />} />
+        <Route path="/edit/:id" element={<EditTask />} />
+        <Route />
+      </Routes>
     </div>
   );
 }

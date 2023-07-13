@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 300px;
+  height: 200px;
+  border-radius: 10%;
+  background-color: aquamarine;
+  margin-bottom: 20px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: inherit;
+  height: 25%;
+  padding: 5px;
+}
+
+.favorite {
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+  width: 40px;
+  height: 40px;
+}
+.logoImage {
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+  width: 40px;
+  height: 40px;
+}
+.middle {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  height: 50%;
+  margin-left: 5px;
+}
+.taskDescription {
+  margin-left: 20px;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: inherit;
+  height: 25%;
+  margin: 5px;
+  padding: 5px;
+}
+
+button:hover {
+  transform: translate(5px, -5px);
+}
