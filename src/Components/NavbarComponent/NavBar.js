@@ -1,4 +1,3 @@
-import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
@@ -6,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 
 import styles from "./NavBar.module.css";
 
-export default function NavBar(args) {
+export default function NavBar() {
   return (
     <div>
       <Navbar expand="md" className={styles.navbar}>

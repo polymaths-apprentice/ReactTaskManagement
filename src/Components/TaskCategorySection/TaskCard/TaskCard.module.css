@@ -37,7 +37,7 @@
 }
 .middle {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   flex-direction: column;
   width: inherit;
   padding-left: 10px;

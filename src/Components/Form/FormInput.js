@@ -1,15 +1,18 @@
-import React from "react";
-import styles from "./Formmodule.module.css";
-import TaskCard from "../CategorySection/Card/TaskCard";
+import styles from "./FormInput.module.css";
+import TaskCard from "../TaskCategorySection/TaskCard/TaskCard";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/esm/Container";
 import { useState, useEffect } from "react";
-
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import TaskDataRepository from "../../Repositories/TaskDataRepository";
+import CategoryRepository from "../../Repositories/CategoryRepository";
+import Category from "../../Models/CategoryModel";
+import Task from "../../Models/TaskModel";
 const currentDate = new Date().toISOString().split("T")[0];
 
-export default function FormInput({ taskObj, taskCategory }) {
+export default function FormInput({ taskObj, category }) {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
@@ -21,103 +24,22 @@ export default function FormInput({ taskObj, taskCategory }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCategoriesWithRepository = async () => {
       try {
-        const response = await fetch("http://localhost:3001/categories");
-        const data = await response.json();
+        const data = await CategoryRepository.getCategories();
+
         setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
 
-    if (taskObj) {
-      const { title: defaultTaskName, description: defaultDescription } =
-        taskObj;
-
-      setTaskName(defaultTaskName);
-      setDescription(defaultDescription);
-
-      if (taskObj.id !== "") {
-        setIsEditing(true);
-      }
+    if (taskObj.id !== "") {
+      setIsEditing(true);
     }
 
-    fetchCategories();
+    fetchCategoriesWithRepository();
   }, []);
-
-  const handleStatusChange = (event) => {
-    setSelectedStatus(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!isEditing) {
-      const data = {
-        title: taskName,
-        description: description,
-        dueDate: selectedDate,
-        categoryId: selectedCategory,
-        status: "Created",
-      };
-
-      console.log(data);
-      console.log("POST POST POST POST  ");
-
-      try {
-        const response = await fetch("http://localhost:3001/tasks", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
-          //TODO: Handle successful update
-          navigate("/home");
-        } else {
-          //TODO: Handle error response
-        }
-      } catch (error) {
-        console.error("Error creating task:", error);
-      }
-    } else {
-      const data = {
-        title: taskName,
-        description,
-        dueDate: selectedDate,
-        categoryId: selectedCategory,
-        status: selectedStatus,
-      };
-
-      console.log(data);
-      console.log("PUT PUT PUT PUT ");
-
-      try {
-        const response = await fetch(
-          `http://localhost:3001/tasks/${taskObj.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }
-        );
-
-        if (response.ok) {
-          //TODO: Handle successful update, Display a pop-up or modal
-          navigate("/home");
-        } else {
-          //TODO: Handle error response
-        }
-      } catch (error) {
-        console.error("Error updating task:", error);
-      }
-    }
-  };
 
   const handleCategoryChange = (event) => {
     const categoryPicked = event.target.value;
@@ -128,23 +50,67 @@ export default function FormInput({ taskObj, taskCategory }) {
 
     setSelectedCategory(category.id);
   };
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/tasks/${taskObj.id}`,
-        {
-          method: "DELETE",
-        }
-      );
 
-      if (response.ok) {
-        // Handle successful deletion
-        navigate("/home");
-      } else {
-        // Handle error response
-      }
-    } catch (error) {
-      console.error("Error deleting task:", error);
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!isEditing) {
+      await handleCreateTask();
+    } else {
+      await handleUpdateTask();
+    }
+  };
+
+  const handleCreateTask = async () => {
+    const data = {
+      title: taskName,
+      description: description,
+      dueDate: selectedDate,
+      categoryId: selectedCategory,
+      status: "Created",
+    };
+
+    const createdTask = await TaskDataRepository.createTask(data);
+
+    if (createdTask) {
+      // Handle successful update
+      navigate("/home");
+    } else {
+      // Handle error response, pop up a notification
+    }
+  };
+
+  const handleUpdateTask = async () => {
+    const data = {
+      title: taskName,
+      description,
+      dueDate: selectedDate,
+      categoryId: selectedCategory,
+      status: selectedStatus,
+    };
+
+    const updatedTask = await TaskDataRepository.updateTask(taskObj.id, data);
+
+    if (updatedTask) {
+      // Handle successful update, Display a pop-up or modal
+      navigate("/home");
+    } else {
+      // Handle error response
+    }
+  };
+
+  const handleDelete = async () => {
+    const deleted = await TaskDataRepository.deleteTask(taskObj.id);
+
+    if (deleted) {
+      // Handle successful deletion with popup
+      navigate("/home");
+    } else {
+      // Handle error response  with popup
     }
   };
 
@@ -162,7 +128,8 @@ export default function FormInput({ taskObj, taskCategory }) {
 
   return (
     <Container className={styles.customContainer}>
-      <TaskCard task={taskObj} category={taskCategory}></TaskCard>
+      <TaskCard taskObj={taskObj} category={category}></TaskCard>
+
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formTaskName">
           <Form.Label>Task Name</Form.Label>
@@ -204,6 +171,7 @@ export default function FormInput({ taskObj, taskCategory }) {
             ))}
           </Form.Control>
         </Form.Group>
+
         {isEditing && (
           <Form.Group className="mb-3" controlId="formBasicDropdown">
             <Form.Label>Status</Form.Label>
@@ -229,3 +197,8 @@ export default function FormInput({ taskObj, taskCategory }) {
     </Container>
   );
 }
+
+FormInput.propTypes = {
+  taskObj: PropTypes.shape(Task).isRequired,
+  category: PropTypes.instanceOf(Category).isRequired,
+};

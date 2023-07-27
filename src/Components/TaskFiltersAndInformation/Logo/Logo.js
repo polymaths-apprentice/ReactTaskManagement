@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Logo.module.css";
 import logoImage from "../../../Assets/Asset 1.svg";
 export default function Logo() {

@@ -1,24 +1,22 @@
-import React from "react";
-import NavBar from "../../NavbarComponent/NavBar";
-import FormInput from "../Form";
+import FormInput from "../FormInput";
 import Task from "../../../Models/TaskModel";
 import Category from "../../../Models/CategoryModel";
 
-export default function CreateTask(props) {
+export default function CreateTask() {
   const taskObj = new Task(
     "",
     "Task title",
     "Task description",
-    "Task Date",
+    new Date(),
     "Task category",
     "Task status"
   );
 
   const taskCategory = new Category("", "category");
+
   return (
     <>
-      <NavBar />
-      <FormInput taskObj={taskObj} taskCategory={taskCategory}></FormInput>
+      <FormInput taskObj={taskObj} category={taskCategory} />
     </>
   );
 }

@@ -1,50 +1,41 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./TaskCard.module.css";
 import { useNavigate } from "react-router-dom";
-
+import PropTypes from "prop-types";
 import arrowIcon from "../../../Assets/Arrow icon.svg";
 import starFilled from "../../../Assets/Star logo colored.svg";
 import starNotFilled from "../../../Assets/Star logo un-colored.svg";
 import Task from "../../../Models/TaskModel";
 import Category from "../../../Models/CategoryModel";
 
-export default function TaskCard({ task, category }) {
+export default function TaskCard({ taskObj, category }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
-  function handleFavorite() {
+  const handleFavorite = () => {
     setIsFavorite(!isFavorite);
-  }
+  };
 
-  function handleEdit() {
+  const handleEdit = () => {
     const taskId = taskObj.id;
     navigate(`/edit/${taskId}`);
-  }
+  };
 
-  const taskDate = new Date(task.dueDate).toDateString();
-
-  const taskObj = new Task(
-    task.id,
-    task.title,
-    task.description,
-    taskDate,
-    task.categoryId,
-    task.status
-  );
+  const taskDate = new Date(taskObj.dueDate).toDateString();
 
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <button className={styles.favorite}>
+        <button className={styles.favorite} onClick={handleFavorite}>
           {isFavorite ? (
-            <img onClick={handleFavorite} src={starFilled} alt="Logo" />
+            <img src={starFilled} alt="Logo" />
           ) : (
-            <img onClick={handleFavorite} src={starNotFilled} alt="Logo" />
+            <img src={starNotFilled} alt="Logo" />
           )}
         </button>
 
-        <button className={styles.logoImage}>
-          <img src={arrowIcon} onClick={handleEdit} alt="Logo" />
+        <button className={styles.logoImage} onClick={handleEdit}>
+          <img src={arrowIcon} alt="Logo" />
         </button>
       </div>
       <div className={styles.middle}>
@@ -53,9 +44,14 @@ export default function TaskCard({ task, category }) {
       </div>
 
       <div className={styles.bottom}>
-        <p>{taskObj.dueDate}</p>
+        <p>{taskDate}</p>
         <p>{category.name}</p>
       </div>
     </div>
   );
 }
+
+TaskCard.propTypes = {
+  taskObj: PropTypes.instanceOf(Task).isRequired,
+  category: PropTypes.instanceOf(Category).isRequired,
+};

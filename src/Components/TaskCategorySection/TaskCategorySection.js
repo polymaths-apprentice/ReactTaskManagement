@@ -1,10 +1,10 @@
-import React from "react";
 import CardHolder from "./CardHolders/CardHolder";
-import styles from "./CategorySection.module.css";
+import styles from "./TaskCategorySection.module.css";
 import Container from "react-bootstrap/esm/Container";
-
+import CategoryRepository from "../../Repositories/CategoryRepository";
 import { useEffect, useState } from "react";
-export default function CategorySection(props) {
+
+export default function TaskCategorySection() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -12,13 +12,8 @@ export default function CategorySection(props) {
   }, []);
 
   const fetchCategories = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/categories");
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
+    const categoriesData = await CategoryRepository.getCategories();
+    setCategories(categoriesData);
   };
 
   return (
