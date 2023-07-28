@@ -164,7 +164,7 @@ export default function FormInput({ taskObj, category }) {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicDropdown">
-          <Form.Label>Dropdown</Form.Label>
+          <Form.Label>Categories</Form.Label>
           <Form.Control as="select" onChange={handleCategoryChange}>
             {categories.map((category) => (
               <option key={category.id}>{category.name}</option>
